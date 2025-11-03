@@ -39,5 +39,6 @@ async def startup():
 
 
 @app.get("/")
+@app.get("/healthcheck")
 async def root():
     return {"message": "PhotoScavenger API is running."}
