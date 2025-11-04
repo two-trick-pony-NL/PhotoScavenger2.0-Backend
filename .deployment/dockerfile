@@ -1,5 +1,5 @@
 # Base image
-FROM python:3.10-buster
+FROM opencv/opencv:4.8.1-python3.10
 
 # Environment
 ENV PYTHONDONTWRITEBYTECODE=1
