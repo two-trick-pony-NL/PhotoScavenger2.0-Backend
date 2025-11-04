@@ -1,6 +1,10 @@
 from datetime import datetime, timedelta
+from .emoji import EMOJI_TO_CLASS
+import random
+
 
 ROUND_DURATION = 60
+NUM_EMOJIS_PER_ROUND = 4
 ROUND_ACTIVE = False
 ROUND_LOCKED = False      # True during pre-round countdown or active round
 ROUND_END_TIME = None
@@ -8,11 +12,15 @@ ROUND_EMOJIS = []
 LOCKED_EMOJIS = {}
 UPLOAD_COUNTER = {}
 LEADERBOARD = {}
-EMOJIS = ["🍎", "🍌", "🍇"]
+EMOJIS = list(EMOJI_TO_CLASS.keys())
 
-def init_round(emojis=None):
+
+def init_round(num_emojis=NUM_EMOJIS_PER_ROUND):
     global ROUND_EMOJIS, LOCKED_EMOJIS, UPLOAD_COUNTER, ROUND_END_TIME
-    ROUND_EMOJIS = emojis.copy() if emojis else EMOJIS.copy()
+    
+    # pick `num_emojis` unique emojis from EMOJIS
+    ROUND_EMOJIS = random.sample(EMOJIS, k=min(num_emojis, len(EMOJIS)))
+    
     LOCKED_EMOJIS = {}
     UPLOAD_COUNTER = {e: 0 for e in ROUND_EMOJIS}
     ROUND_END_TIME = datetime.utcnow() + timedelta(seconds=ROUND_DURATION)
