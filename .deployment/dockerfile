@@ -1,6 +1,5 @@
 # Base image
-FROM opencv/opencv:4.8.1-python3.10
-
+FROM alpine/opencv:latest
 # Environment
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
