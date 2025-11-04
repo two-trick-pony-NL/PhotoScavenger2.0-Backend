@@ -1,5 +1,5 @@
 # Base image
-FROM python:3.10-buster
+FROM python:3.10-slim-bullseye
 
 # Environment
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -8,15 +8,22 @@ ENV PYTHONUNBUFFERED=1
 # Set working directory
 WORKDIR /app
 
-# Copy only requirements first (for caching)
+# Install system dependencies for OpenCV and clean cache
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        libgl1 \
+        libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy only requirements first (cached if unchanged)
 COPY requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy YOLO weights (rarely changes)
 COPY yolo11n_object365.pt .
 
-# Install dependencies (this layer will be cached if requirements.txt hasn't changed)
-RUN apt-get update && apt-get install -y libgl1 libglib2.0-0 \
-    && pip install --no-cache-dir -r requirements.txt
-
-# Copy the rest of your application
+# Copy the rest of the application
 COPY . .
 
 # Expose port
