@@ -4,7 +4,7 @@ import random
 
 
 ROUND_DURATION = 60
-NUM_EMOJIS_PER_ROUND = 4
+NUM_EMOJIS_PER_ROUND = 8
 ROUND_ACTIVE = False
 ROUND_LOCKED = False      # True during pre-round countdown or active round
 ROUND_END_TIME = None
