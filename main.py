@@ -38,6 +38,7 @@ async def startup():
     asyncio.create_task(broadcast_tick())
 
 
+
 @app.get("/")
 @app.get("/healthcheck")
 async def root():
