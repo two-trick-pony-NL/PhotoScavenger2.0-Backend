@@ -1,0 +1,6 @@
+{
+  "fastapi": {
+  "image": ":backend-prod.fastapi.latest",
+  "ports": {"80": "HTTP"}
+  }
+}
