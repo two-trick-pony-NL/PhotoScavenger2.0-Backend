@@ -1,6 +1,6 @@
 {
   "fastapi": {
-  "image": ":backend-prod.fastapi.latest",
+  "image": ":photoscavenger-backend-service.fastapi.latest",
   "ports": {"80": "HTTP"}
   }
 }

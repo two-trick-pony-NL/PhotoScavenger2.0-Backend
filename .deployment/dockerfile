@@ -1,19 +1,24 @@
-# Set base image (host OS)
+# Base image
 FROM python:3.10-buster
 
-# By default, listen on port
-EXPOSE 8000/tcp
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+# Environment
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# Copy the dependencies file to the working directory
+# Set working directory
+WORKDIR /app
+
+# Copy only requirements first (for caching)
 COPY requirements.txt .
 
-# Install any dependencies
-RUN pip install -r requirements.txt
+# Install dependencies (this layer will be cached if requirements.txt hasn't changed)
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the content of the local src directory to the working directory
+# Copy the rest of your application
 COPY . .
-# Specify the command to run on container start
-#CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
-CMD [ "uvicorn", "--host", "0.0.0.0", '--port', '80' ]
+
+# Expose port
+EXPOSE 80
+
+# Start the app
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
