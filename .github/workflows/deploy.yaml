@@ -45,7 +45,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      - name: 🐳 Create a Docker Container for DJANGO
+      - name: 🐳 Create a Docker Container for Fastapi
         run: docker build -t fastapi:latest -f ./.deployment/dockerfile .
       - name: 📬 Upload Backend image to AWS container register
         run: |
