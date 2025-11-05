@@ -4,7 +4,25 @@ EMOJI_TO_CLASS = {
         "🍌": "Banana",
         "🪑": "Chair",
         "👟": "Sneakers",
-        "☕️": "Cup"
+        "☕️": "Cup",
+        "🧍🏻‍♂️": "Person",
+        "👞": "Other Shoes",
+        "🧢": "Hat",
+        "🚗": "Car",
+        "💡": "Lamp",
+        "👓": "Glasses",
+        "🍾": "Bottle",
+        "🍽️": "Plate",
+        "📦": "Storage box",
+        "📚": "Book",
+        "🌻": "Flower",
+        "🪴": "Potted Plant",
+        "🥣": "Bowl/Basin",
+        "🪛": "Screwdriver",
+        "🏺": "Vase",
+        "🥫": "Canned",
+        "🍷": "Wine Glass",
+        "📺": "Monitor/TV",
 }
 
 
