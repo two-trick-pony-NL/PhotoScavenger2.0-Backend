@@ -4,7 +4,7 @@ import random
 from .analytics import track_event
 
 
-ROUND_DURATION = 60
+ROUND_DURATION = 30
 NUM_EMOJIS_PER_ROUND = 8
 ROUND_ACTIVE = False
 ROUND_LOCKED = False      # True during pre-round countdown or active round

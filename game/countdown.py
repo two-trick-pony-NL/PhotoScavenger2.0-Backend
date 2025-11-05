@@ -6,7 +6,7 @@ from .analytics import track_event
 import game.state as state  # <--- import the module itself
 
 PRE_ROUND_COUNTDOWN = 10
-ROUND_DURATION = 60
+ROUND_DURATION = 30
 
 async def pre_round_countdown():
     # Pre-round countdown
