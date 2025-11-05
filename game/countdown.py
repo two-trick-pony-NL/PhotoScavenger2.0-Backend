@@ -33,7 +33,7 @@ async def broadcast_tick():
                 state.ROUND_ACTIVE = False
                 state.ROUND_END_TIME = None  # stop ticking until next round
                 state.ROUND_LOCKED = False  # unlock for next round
-                previous_round_leaderboard = state.LEADERBOARD
+                previous_round_leaderboard = state.get_leaderboard()
                 track_event("Round Ended", "Round Ended", {"leaderboard": previous_round_leaderboard})
                 for entry in previous_round_leaderboard:
                     track_event(str(entry[0]), "Reached Leaderboard", {"points": entry[1]})
