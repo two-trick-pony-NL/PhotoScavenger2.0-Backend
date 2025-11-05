@@ -2,6 +2,7 @@
 import asyncio
 from datetime import datetime, timedelta
 from .events import publish_countdown, publish_event
+from .analytics import track_event
 import game.state as state  # <--- import the module itself
 
 PRE_ROUND_COUNTDOWN = 10
@@ -32,5 +33,9 @@ async def broadcast_tick():
                 state.ROUND_ACTIVE = False
                 state.ROUND_END_TIME = None  # stop ticking until next round
                 state.ROUND_LOCKED = False  # unlock for next round
+                previous_round_leaderboard = state.LEADERBOARD
+                track_event("Round Ended", "Round Ended", {"leaderboard": previous_round_leaderboard})
+                for entry in previous_round_leaderboard:
+                    track_event(str(entry[0]), "Reached Leaderboard", {"points": entry[1]})
                 await publish_event({"type": "round_ended", "leaderboard": state.get_leaderboard()})
         await asyncio.sleep(1)

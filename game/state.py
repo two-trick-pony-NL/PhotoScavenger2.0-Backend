@@ -22,10 +22,6 @@ def init_round(num_emojis=NUM_EMOJIS_PER_ROUND):
     # pick `num_emojis` unique emojis from EMOJIS
     ROUND_EMOJIS = random.sample(EMOJIS, k=min(num_emojis, len(EMOJIS)))
     
-    previous_round_leaderboard = LEADERBOARD.copy()
-    for entry in previous_round_leaderboard:
-        track_event(str(entry[0]), "Reached Leaderboard", {"points": entry[1]})
-    
     LOCKED_EMOJIS = {}
     UPLOAD_COUNTER = {e: 0 for e in ROUND_EMOJIS}
     ROUND_END_TIME = datetime.utcnow() + timedelta(seconds=ROUND_DURATION)
