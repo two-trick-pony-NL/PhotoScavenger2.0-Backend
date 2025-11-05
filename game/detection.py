@@ -1,3 +1,4 @@
+import time
 import io
 from PIL import Image
 from ultralytics import YOLO
@@ -36,7 +37,10 @@ def normalize_label(label: str) -> str:
 def detect_match(photo_bytes: bytes, emoji: str, player_id, threshold: float = CONF_THRESHOLD) -> bool:
     img = Image.open(io.BytesIO(photo_bytes)).convert("RGB")
     model_instance = get_model()
+    start_time = time.time()
     results = model_instance(img)
+    inference_time = time.time() - start_time
+    print(f"🕒 Inference time: {inference_time:.2f} seconds")
     
     target = normalize_label(EMOJI_TO_CLASS.get(emoji, ""))
     if not target:
@@ -57,7 +61,9 @@ def detect_match(photo_bytes: bytes, emoji: str, player_id, threshold: float = C
             "detected_label": label,
             "target_label": target,
             "confidence": conf, 
-            "is_match": CORRECT
+            "is_match": CORRECT,
+            "inference_time_ms": round(inference_time*1000, 1)
+
         })
         if CORRECT:
             print(f"✅ Match found: {label} ({conf:.2f})")
