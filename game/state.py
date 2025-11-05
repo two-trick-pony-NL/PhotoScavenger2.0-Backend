@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from .emoji import EMOJI_TO_CLASS
 import random
+from .analytics import track_event
 
 
 ROUND_DURATION = 60
@@ -20,6 +21,10 @@ def init_round(num_emojis=NUM_EMOJIS_PER_ROUND):
     
     # pick `num_emojis` unique emojis from EMOJIS
     ROUND_EMOJIS = random.sample(EMOJIS, k=min(num_emojis, len(EMOJIS)))
+    
+    previous_round_leaderboard = LEADERBOARD.copy()
+    for entry in previous_round_leaderboard:
+        track_event(str(entry[0]), "Reached Leaderboard", {"points": entry[1]})
     
     LOCKED_EMOJIS = {}
     UPLOAD_COUNTER = {e: 0 for e in ROUND_EMOJIS}

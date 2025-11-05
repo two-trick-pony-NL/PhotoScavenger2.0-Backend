@@ -3,12 +3,14 @@ from fastapi import WebSocket
 from game.state import ROUND_END_TIME, get_leaderboard, ROUND_EMOJIS, LOCKED_EMOJIS
 connected_websockets = set()
 from datetime import datetime
+from game.analytics import track_event
 
 async def websocket_endpoint(ws: WebSocket):
     await ws.accept()
     connected_websockets.add(ws)
     try:
         await send_full_state(ws)
+        track_event("system", "player connected", {"timestamp": datetime.utcnow().isoformat()})
         while True:
             await ws.receive_text()
     except:

@@ -6,3 +6,4 @@ Pillow
 ultralytics
 redis>=4.5.0
 python-multipart
+mixpanel
