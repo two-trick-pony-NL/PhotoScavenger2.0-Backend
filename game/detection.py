@@ -5,7 +5,7 @@ from ultralytics import YOLO
 from .emoji import EMOJI_TO_CLASS
 from .analytics import track_event
 
-CONF_THRESHOLD = 0.3
+CONF_THRESHOLD = 0.2
 MODEL_PATH = "yolo11n_object365.pt"
 
 # Global placeholder
