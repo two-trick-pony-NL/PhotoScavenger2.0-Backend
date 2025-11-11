@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Query, UploadFile, File, HTTPException
 import asyncio
-from game.state import is_locked, try_lock_emoji, award_points, get_leaderboard, start_upload, finish_upload, ROUND_ACTIVE, ROUND_LOCKED
+from game.state import is_locked, try_lock_emoji, award_points, get_leaderboard, start_upload, finish_upload
 from game.detection import detect_match
 from game.events import publish_event
 from game.countdown import pre_round_countdown
