@@ -8,7 +8,6 @@ from game import state
 from game.analytics import track_event
 
 UPLOAD_LIMIT_PER_EMOJI = 10
-POINTS_PER_EMOJI = 10
 
 api_router = APIRouter()
 
@@ -47,7 +46,7 @@ async def upload_photo(player_id: str = Query(...), emoji: str = Query(...), fil
         if not try_lock_emoji(emoji, player_id):
             await publish_event({"type": "photo_processed", "player_id": player_id, "emoji": emoji, "status": "too_late"})
             return {"status": "too_late"}
-        score = award_points(player_id, POINTS_PER_EMOJI)
+        score = award_points(player_id)
         await publish_event({
             "type": "emoji_locked",
             "emoji": emoji,
