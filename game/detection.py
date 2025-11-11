@@ -1,7 +1,6 @@
 import time
 import io
 from PIL import Image
-from ultralytics import YOLO
 from .emoji import EMOJI_TO_CLASS
 from .analytics import track_event
 
@@ -12,9 +11,10 @@ MODEL_PATH = "yolo11n_object365.pt"
 model = None
 
 def get_model():
-    """Load YOLO only once, on first use"""
+    """Lazy-load YOLO only on first use."""
     global model
     if model is None:
+        from ultralytics import YOLO  # moved inside to avoid import-time side effects
         model = YOLO(MODEL_PATH)
         print("✅ Loaded YOLO model.")
     return model
@@ -45,17 +45,13 @@ def detect_match(photo_bytes: bytes, emoji: str, player_id, threshold: float = C
     target = normalize_label(EMOJI_TO_CLASS.get(emoji, ""))
     if not target:
         return False
-    
 
     for box in results[0].boxes:
         cls_id = int(box.cls[0])
         conf = float(box.conf[0])
         label = normalize_label(model_instance.names[cls_id])
         print(f"Detected: {label} ({conf:.2f}) vs Target: {target}")
-        if label == target and conf >= threshold:
-            CORRECT = True
-        else:
-            CORRECT = False
+        CORRECT = label == target and conf >= threshold
         
         track_event(player_id, "Object Detected", {
             "detected_label": label,
@@ -63,8 +59,8 @@ def detect_match(photo_bytes: bytes, emoji: str, player_id, threshold: float = C
             "confidence": conf, 
             "is_match": CORRECT,
             "inference_time_ms": round(inference_time*1000, 1)
-
         })
+        
         if CORRECT:
             print(f"✅ Match found: {label} ({conf:.2f})")
             return True
