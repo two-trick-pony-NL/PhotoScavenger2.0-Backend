@@ -11,7 +11,7 @@ MODEL_PATH = "yolo11n_object365.pt"
 model = None
 
 def get_model():
-    """Lazy-load YOLO only on first use."""
+    """Lazy-load YOLO only on first use. But never before server is fully up"""
     global model
     if model is None:
         from ultralytics import YOLO  # moved inside to avoid import-time side effects

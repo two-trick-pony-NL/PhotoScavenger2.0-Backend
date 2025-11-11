@@ -2,5 +2,9 @@
   "fastapi": {
   "image": ":photoscavenger-backend-service.fastapi.latest",
   "ports": {"80": "HTTP"}
+  },
+  "redis": {
+    "image": "redis:latest",
+    "ports": {"6379": "TCP"}
   }
 }

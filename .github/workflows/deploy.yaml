@@ -24,12 +24,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y jq unzip
-      - name: 🤐 Make envfile
-        uses: SpicyPizza/create-envfile@v1.3
-        with:
-            envkey_REDIS_URL: ${{ secrets.REDIS_URL }}
-            file_name: .env
-            fail_on_empty: false
       - name: 🏢 Install Amazon Client
         run: |
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
