@@ -5,15 +5,18 @@ import random
 ROUND_DURATION = 30
 NUM_EMOJIS_PER_ROUND = 12
 BASE_POINTS = 10           # max points per emoji
-DECAY_RATE = 0.98          # fade leaderboard per round
+DECAY_RATE = 0.90         # fade leaderboard per round
 MAX_LEADERBOARD_SIZE = 50
-
+ROUND_ACTIVE = False
+ROUND_LOCKED = False      # True during pre-round countdown or active round
 ROUND_END_TIME = None
 ROUND_EMOJIS = []
 LOCKED_EMOJIS = {}
 UPLOAD_COUNTER = {}
 LEADERBOARD = {}
 EMOJIS = list(EMOJI_TO_CLASS.keys())
+
+
 
 
 def init_round(num_emojis=NUM_EMOJIS_PER_ROUND):
@@ -62,7 +65,7 @@ def award_points(player_id):
     remaining_time = (ROUND_END_TIME - datetime.utcnow()).total_seconds()
     if remaining_time < 0:
         remaining_time = 0
-    points = max(int(BASE_POINTS * remaining_time)), 1)
+    points = max(int(BASE_POINTS * remaining_time), 1)
     LEADERBOARD[player_id] = LEADERBOARD.get(player_id, 0) + points
     return points
 
