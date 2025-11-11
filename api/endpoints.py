@@ -47,12 +47,12 @@ async def upload_photo(player_id: str = Query(...), emoji: str = Query(...), fil
         if not try_lock_emoji(emoji, player_id):
             await publish_event({"type": "photo_processed", "player_id": player_id, "emoji": emoji, "status": "too_late"})
             return {"status": "too_late"}
-        award_points(player_id, POINTS_PER_EMOJI)
+        score = award_points(player_id, POINTS_PER_EMOJI)
         await publish_event({
             "type": "emoji_locked",
             "emoji": emoji,
             "winner": player_id,
-            "points": POINTS_PER_EMOJI,
+            "points": score,
             "leaderboard": get_leaderboard()
         })
         track_event(player_id, "image uploaded", {"player_id": player_id, "emoji": emoji, "status": "matched"})
