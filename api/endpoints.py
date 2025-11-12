@@ -6,6 +6,8 @@ from game.events import publish_event
 from game.countdown import pre_round_countdown
 from game import state
 from game.analytics import track_event
+from websocket.handler import active_players
+
 
 UPLOAD_LIMIT_PER_EMOJI = 10
 
@@ -58,3 +60,18 @@ async def upload_photo(player_id: str = Query(...), emoji: str = Query(...), fil
         return {"status": "success"}
     finally:
         finish_upload(emoji)
+
+
+@api_router.get("/game-state/")
+async def get_game_state():
+    return {
+        "ROUND_ACTIVE": state.ROUND_ACTIVE,
+        "ROUND_LOCKED": state.ROUND_LOCKED,
+        "ROUND_END_TIME": state.ROUND_END_TIME.isoformat() if state.ROUND_END_TIME else None,
+        "ROUND_EMOJIS": state.ROUND_EMOJIS,
+        "LOCKED_EMOJIS": state.LOCKED_EMOJIS,
+        "UPLOAD_COUNTER": state.UPLOAD_COUNTER,
+        "LEADERBOARD": state.get_leaderboard(),
+        "ACTIVE_PLAYERS": len(active_players),
+
+    }

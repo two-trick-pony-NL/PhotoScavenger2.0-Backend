@@ -14,25 +14,16 @@ dotenv.load_dotenv()
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 
 # --- REDIS CLIENT ---
-redis_client = None
-
-
-async def wait_for_redis():
-    global redis_client
-    for _ in range(10):
-        try:
-            redis_client = aioredis.from_url("redis://localhost:6379")
-            await redis_client.ping()
-            print("Connected to Redis")
-            return
-        except aioredis.ConnectionError:
-            print("Waiting for Redis...")
-            await asyncio.sleep(2)
-    raise ConnectionError("Could not connect to Redis")
+redis_client = aioredis.from_url(REDIS_URL)
 
 # --- FASTAPI ---
 app = FastAPI()
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(
+    CORSMiddleware, 
+    allow_origins=["*"], 
+    allow_methods=["*"], 
+    allow_headers=["*"]
+)
 app.include_router(api_router)
 
 # --- WEBSOCKET ---
@@ -50,8 +41,6 @@ async def startup():
     # Start background tasks
     asyncio.create_task(redis_pubsub_forwarder(redis_client))
     asyncio.create_task(broadcast_tick())
-
-
 
 @app.get("/")
 @app.get("/healthcheck")
