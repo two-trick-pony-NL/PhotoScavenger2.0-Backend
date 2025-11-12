@@ -118,6 +118,7 @@ REDIS_URL	redis://localhost:6379/0	Redis connection URL
 
 
 ## Supported classes: 
+
 ```
 
 # EMOJI_TO_CLASS = {
