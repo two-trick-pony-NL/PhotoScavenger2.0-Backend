@@ -5,7 +5,6 @@ from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 import redis.asyncio as aioredis
 
-
 from websocket.handler import websocket_endpoint, redis_pubsub_forwarder
 from api.endpoints import api_router
 from game.countdown import broadcast_tick
@@ -44,16 +43,14 @@ async def ws_endpoint(websocket: WebSocket):
 # --- STARTUP ---
 @app.on_event("startup")
 async def startup():
-    global redis_client
-    redis_client = await wait_for_redis()  # Must complete first
-
-    # Inject into modules after assignment
+    # Inject redis_client into modules
     from game import events
     events.redis_client = redis_client
 
-    # Now start background tasks
+    # Start background tasks
     asyncio.create_task(redis_pubsub_forwarder(redis_client))
     asyncio.create_task(broadcast_tick())
+
 
 
 @app.get("/")
