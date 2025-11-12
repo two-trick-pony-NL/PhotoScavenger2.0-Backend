@@ -71,4 +71,4 @@ def award_points(player_id):
 
 
 def get_leaderboard(top_n=10):
-    return sorted(LEADERBOARD.items(), key=lambda x: -x[1])[:top_n]
+    return [(user, round(points)) for user, points in sorted(LEADERBOARD.items(), key=lambda x: -x[1])[:top_n]]
