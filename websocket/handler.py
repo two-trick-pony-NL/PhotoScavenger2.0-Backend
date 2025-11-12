@@ -40,18 +40,18 @@ async def send_full_state(ws: WebSocket):
         "status": status,
         "leaderboard": get_leaderboard(),
         "emojis": [{"emoji": e, "locked_by": LOCKED_EMOJIS.get(e)} for e in ROUND_EMOJIS],
-        "active_players": len(connected_websockets),
+        "active_players": len(active_players),
     }
     await ws.send_json(state)
 
 
 async def broadcast_connection_count():
-    payload = {"type": "active_players", "count": len(connected_websockets)}
-    for ws in list(connected_websockets):
+    payload = {"type": "active_players", "count": len(active_players)}
+    for ws in list(active_players):
         try:
             await ws.send_json(payload)
         except:
-            connected_websockets.discard(ws)
+            active_players.discard(ws)
 
 
 async def redis_pubsub_forwarder(redis_client):
@@ -66,8 +66,8 @@ async def redis_pubsub_forwarder(redis_client):
             payload = json.loads(data)
         except:
             payload = {"type": "raw", "data": data}
-        for ws in list(connected_websockets):
+        for ws in list(active_players):
             try:
                 await ws.send_json(payload)
             except:
-                connected_websockets.discard(ws)
+                active_players.discard(ws)
