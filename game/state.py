@@ -3,7 +3,7 @@ from .emoji import EMOJI_TO_CLASS
 import random
 
 ROUND_DURATION = 30
-NUM_EMOJIS_PER_ROUND = 12
+NUM_EMOJIS_PER_ROUND = 16
 BASE_POINTS = 10           # max points per emoji
 DECAY_RATE = 0.90         # fade leaderboard per round
 MAX_LEADERBOARD_SIZE = 50
