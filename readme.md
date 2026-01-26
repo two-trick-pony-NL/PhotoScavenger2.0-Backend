@@ -11,7 +11,7 @@ It handles object detection in user photos and serves real-time game events for 
 
 
 
-**Version:** v2
+**Version:** v3
 
 ---
 
